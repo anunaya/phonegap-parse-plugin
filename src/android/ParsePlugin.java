@@ -103,19 +103,7 @@ public class ParsePlugin extends CordovaPlugin {
             public void run() {
                 //PushService.pushData()
                 //
-                Parse.Push.send({
-                  channels: channels,
-                  data: {
-                    alert: pushMessage
-                  }
-                }, {
-                  success: function() {
-                    // Push was successful
-                  },
-                  error: function(error) {
-                    // Handle error
-                  }
-                });
+                //Parse.Push.send();
             }
         });
     }
