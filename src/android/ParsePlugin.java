@@ -40,7 +40,7 @@ public class ParsePlugin extends CordovaPlugin {
             return true;
         }
         if (action.equals(ACTION_PUSH_DATA)) {
-            this.pushData(callbackContext);
+            this.pushData(args.getString(0), args.getString(1), callbackContext);
             return true;
         }
         if (action.equals(ACTION_SUBSCRIBE)) {
