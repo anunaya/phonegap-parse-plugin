@@ -16,6 +16,7 @@ public class ParsePlugin extends CordovaPlugin {
     public static final String ACTION_GET_INSTALLATION_ID = "getInstallationId";
     public static final String ACTION_GET_INSTALLATION_OBJECT_ID = "getInstallationObjectId";
     public static final String ACTION_GET_SUBSCRIPTIONS = "getSubscriptions";
+    public static final String ACTION_PUSH_DATA = "pushData";
     public static final String ACTION_SUBSCRIBE = "subscribe";
     public static final String ACTION_UNSUBSCRIBE = "unsubscribe";
 
@@ -36,6 +37,10 @@ public class ParsePlugin extends CordovaPlugin {
         }
         if (action.equals(ACTION_GET_SUBSCRIPTIONS)) {
             this.getSubscriptions(callbackContext);
+            return true;
+        }
+        if (action.equals(ACTION_PUSH_DATA)) {
+            this.pushData(callbackContext);
             return true;
         }
         if (action.equals(ACTION_SUBSCRIBE)) {
@@ -89,6 +94,28 @@ public class ParsePlugin extends CordovaPlugin {
             public void run() {
                  Set<String> subscriptions = PushService.getSubscriptions(cordova.getActivity());
                  callbackContext.success(subscriptions.toString());
+            }
+        });
+    }
+
+    private void pushData(final String[] channels, final String pushMessage, final CallbackContext callbackContext) {
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                //PushService.pushData()
+                //
+                Parse.Push.send({
+                  channels: channels,
+                  data: {
+                    alert: pushMessage
+                  }
+                }, {
+                  success: function() {
+                    // Push was successful
+                  },
+                  error: function(error) {
+                    // Handle error
+                  }
+                });
             }
         });
     }
